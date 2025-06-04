@@ -1,8 +1,27 @@
-
 import React, { useState, useCallback } from 'react';
 import { PanelItemData } from './types';
 import Panel from './components/Panel';
 import { PhoneIcon, EmailIcon, LocationIcon, LinkIcon, GraduationCapIcon, BriefcaseIcon, BeakerIcon, AcademicCapIcon, SparklesIcon } from './components/IconComponents';
+
+// Import the local image
+import ProJpg from './pro.jpg'; // Assuming pro.jpg is in the same directory as this file
+import Pro1Jpg from './pro1.jpg';
+import Pro2Jpg from './pro2.jpg';
+import Pro3Jpg from './pro3.jpg';
+import Pro4Jpg from './pro4.jpg';
+
+const USE_LOCAL_IMAGE = false;
+
+// ---
+
+// Define image URLs based on the flag
+const proJpg = USE_LOCAL_IMAGE ? ProJpg : 'https://picsum.photos/seed/sumaita_profile_abstract/1200/800';
+const pro1Jpg = USE_LOCAL_IMAGE ? Pro1Jpg : 'https://picsum.photos/seed/education_concept_tech/1200/800';
+const pro2Jpg = USE_LOCAL_IMAGE ? Pro2Jpg : 'https://picsum.photos/seed/professional_clinic/1200/800';
+const pro3Jpg = USE_LOCAL_IMAGE ? Pro3Jpg : 'https://picsum.photos/seed/research_lab_dna/1200/800';
+const pro4Jpg = USE_LOCAL_IMAGE ? Pro4Jpg : 'https://picsum.photos/seed/community_stage/1200/800';
+
+
 
 const SectionTitle: React.FC<{ icon?: React.ReactNode, title: string, className?: string }> = ({ icon, title, className }) => (
   <div className={`flex items-center mb-3 ${className}`}>
@@ -13,14 +32,14 @@ const SectionTitle: React.FC<{ icon?: React.ReactNode, title: string, className?
 
 // ListItem component is not used, can be removed if not planned for future use.
 // const ListItem: React.FC<{ children: React.ReactNode, className?: string }> = ({ children, className }) => (
-//   <li className={`mb-2 pl-4 border-l-2 border-sky-400 ${className}`}>{children}</li>
+//  <li className={`mb-2 pl-4 border-l-2 border-sky-400 ${className}`}>{children}</li>
 // );
 
 const panelsData: PanelItemData[] = [
   {
     id: 'sumaita',
     title: 'Introduction',
-    backgroundImageUrl: 'https://picsum.photos/seed/sumaita_profile_abstract/1200/800',
+    backgroundImageUrl: proJpg, // Replaced with local image import
     content: (
       <div className="space-y-4 text-sm sm:text-base">
         <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">SUMAITA KABIR PROMITEE</h2>
@@ -48,7 +67,7 @@ const panelsData: PanelItemData[] = [
   {
     id: 'education-skills',
     title: 'Education & Skills',
-    backgroundImageUrl: 'https://picsum.photos/seed/education_concept_tech/1200/800',
+    backgroundImageUrl: pro1Jpg, // Replaced with local image import
     content: (
       <div className="space-y-6 text-sm sm:text-base">
         <SectionTitle icon={<GraduationCapIcon />} title="Education" />
@@ -66,7 +85,7 @@ const panelsData: PanelItemData[] = [
         </div>
 
         <SectionTitle icon={<AcademicCapIcon />} title="Key Skills" />
-         <div className="ml-2 space-y-3">
+          <div className="ml-2 space-y-3">
             <div className="p-3 bg-white/10 rounded-lg">
                 <h4 className="font-semibold text-sky-100 mb-1">Technical</h4>
                 <ul className="list-disc list-inside text-gray-300 space-y-1 text-xs sm:text-sm">
@@ -95,7 +114,7 @@ const panelsData: PanelItemData[] = [
   {
     id: 'experience',
     title: 'Professional Experience',
-    backgroundImageUrl: 'https://picsum.photos/seed/professional_clinic/1200/800',
+    backgroundImageUrl: pro2Jpg, // Replaced with local image import
     content: (
       <div className="space-y-6 text-sm sm:text-base">
         <SectionTitle icon={<BriefcaseIcon />} title="Professional Experience" />
@@ -150,7 +169,7 @@ const panelsData: PanelItemData[] = [
   {
     id: 'research',
     title: 'Research & Publications',
-    backgroundImageUrl: 'https://picsum.photos/seed/research_lab_dna/1200/800',
+    backgroundImageUrl: pro3Jpg, // Replaced with local image import
     content: (
       <div className="space-y-6 text-sm sm:text-base">
         <SectionTitle icon={<BeakerIcon />} title="Research & Publications" />
@@ -175,7 +194,7 @@ const panelsData: PanelItemData[] = [
           </a>
           </p>
         </div>
-         <div className="p-3 bg-white/10 rounded-lg">
+          <div className="p-3 bg-white/10 rounded-lg">
           <h4 className="font-semibold text-sky-100">Research Trainee</h4>
           <p className="text-gray-300 italic">Dept. of Community Medicine, Mymensingh Medical College (2016)</p>
           <p className="text-gray-300 text-xs sm:text-sm">Conducted cross-sectional study on high-risk pregnancy prevalence with Dr. Shahidul Basher.</p>
@@ -186,9 +205,9 @@ const panelsData: PanelItemData[] = [
   {
     id: 'leadership-certs',
     title: 'Impact & Credentials',
-    backgroundImageUrl: 'https://picsum.photos/seed/community_stage/1200/800',
+    backgroundImageUrl: pro4Jpg, // Replaced with local image import
     content: (
-       <div className="space-y-6 text-sm sm:text-base">
+        <div className="space-y-6 text-sm sm:text-base">
         <SectionTitle icon={<SparklesIcon />} title="Leadership & Services" />
         <ul className="list-disc list-inside text-gray-300 space-y-1 ml-2 text-xs sm:text-sm">
             <li>Physical First Aider, Occupational Health and Safety | icddr,b | 2021</li>
@@ -216,7 +235,7 @@ const panelsData: PanelItemData[] = [
         </ul>
 
         <SectionTitle icon={<SparklesIcon className="transform rotate-45"/>} title="Volunteer Experience" />
-         <ul className="list-disc list-inside text-gray-300 space-y-1 ml-2 text-xs sm:text-sm">
+          <ul className="list-disc list-inside text-gray-300 space-y-1 ml-2 text-xs sm:text-sm">
             <li>Health-camp Organizer, Gouripur Upazilla Health Complex, Mymensingh | 2017</li>
             <li>Public Health Screening Diabetes Day, Mymensingh, Bangladesh | 2017</li>
             <li>Night of All Nations | 2024, University of Nevada, Reno</li>
@@ -239,7 +258,7 @@ const App: React.FC = () => {
       <div className="flex w-full"> {/* Removed max-w-6xl */}
         {panelsData.map((panel, index) => {
           // All panels are now always visible
-          const displayClass = 'flex'; 
+          const displayClass = 'flex';
           
           return (
             <Panel
