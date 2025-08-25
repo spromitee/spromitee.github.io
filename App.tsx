@@ -18,7 +18,7 @@ const USE_LOCAL_IMAGE = false;
 const proJpg = USE_LOCAL_IMAGE ? ProJpg : 'https://picsum.photos/seed/sumaita_profile_abstract/1200/800';
 const pro1Jpg = USE_LOCAL_IMAGE ? Pro1Jpg : 'https://picsum.photos/seed/education_concept_tech/1200/800';
 const pro2Jpg = USE_LOCAL_IMAGE ? Pro2Jpg : 'https://picsum.photos/seed/professional_clinic/1200/800';
-const pro3Jpg = USE_LOCAL_IMAGE ? Pro3Jpg : 'https://picsum.photos/seed/research_lab_dna/1200/800';
+const pro3Jpg = USE_LOCAL_IMAGE ? Pro3Jpg : 'https://picsum.photos/seed/research_lab/1200/800';
 const pro4Jpg = USE_LOCAL_IMAGE ? Pro4Jpg : 'https://picsum.photos/seed/community_stage/1200/800';
 
 
@@ -119,6 +119,15 @@ const panelsData: PanelItemData[] = [
       <div className="space-y-6 text-sm sm:text-base">
         <SectionTitle icon={<BriefcaseIcon />} title="Professional Experience" />
         {[
+	  {
+            role: "Research Intern",
+            org: "Kaiser Parmanente - Vallejo Medical Center",
+            date: "May 2025 - July 2025",
+            points: [
+              "Supported program development, implementation, and evaluation; participated in patient care and data analysis.",
+	      "Projects: KP Care Without Walls (Dr. Emily Fisher, homelessness) and Honduras Nutrition Project (Dr. Yasmin Crespo-Mejias, anemia)."
+            ]
+          },
           {
             role: "Graduate Teaching Assistant",
             org: "Speech Pathology and Audiology Department, University of Nevada, Reno",
@@ -208,8 +217,14 @@ const panelsData: PanelItemData[] = [
     backgroundImageUrl: pro4Jpg, // Replaced with local image import
     content: (
         <div className="space-y-6 text-sm sm:text-base">
+<SectionTitle icon={<SparklesIcon />} title="Honors & Awards" />
+        <ul className="list-disc list-inside text-gray-300 space-y-1 ml-2 text-xs sm:text-sm">
+	    <li>Institutional Methodology Scholarship, University of Nevada, Reno I 2025</li>
+                    </ul>
+
         <SectionTitle icon={<SparklesIcon />} title="Leadership & Services" />
         <ul className="list-disc list-inside text-gray-300 space-y-1 ml-2 text-xs sm:text-sm">
+	    <li>Council Representative | Graduate Student Association (GSA) | 2025</li>
             <li>Physical First Aider, Occupational Health and Safety | icddr,b | 2021</li>
             <li>Local Officer of Publication, International Federation of Medical Students (IFMSA) | 2018</li>
             <li>Event Organizer & Participant: Cancer Awareness Workshop and U.S.G. Training Session | 2018</li>
@@ -224,6 +239,11 @@ const panelsData: PanelItemData[] = [
                 (View Sample <LinkIcon className="inline w-3 h-3" />)
               </a>
             </li>
+            <li>NCAL Division of Research Training Series: Authorized by Kaiser Permanente | May 27, 2025 | 
+        •      Research Statistics
+	•      Introduction to Clinical Research
+	•      Regression Modeling</li>
+
             <li>Global Disease Masterclass: Non-communicable Diseases (Imperial College London, Nov 2022)</li>
             <li>Specialization in Biostatistics in Public Health (John Hopkins University, Oct 2022)</li>
             <li>Specialization: Essential Epidemiologic Tools for Public Health (John Hopkins University, Oct 2022)</li>
