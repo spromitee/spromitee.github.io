@@ -131,10 +131,21 @@ const panelsData: PanelItemData[] = [
           {
             role: "Graduate Teaching Assistant",
             org: "Speech Pathology and Audiology Department, University of Nevada, Reno",
-            date: "Aug 2024 - Present",
+            date: "Aug 2024 - May 2025",
             points: [
               "Instructed and guided 35 undergraduate students in introduction to Neuroanatomy, simplifying complex concepts for diverse audiences.",
               "Collaborated with faculty to develop engaging course materials and foster a collaborative learning environment."
+            ]
+          },
+{
+            role: "Graduate Teaching Assistant",
+            org: "Nutrition, University of Nevada, Reno",
+            date: "Aug 2025 - Present",
+            points: [
+              "Conducted and supervised three laboratory sections with a total of 60 undergraduate students.",
+              "Delivered lectures and provided hands-on demonstrations of practical measurement techniques (e.g., BMI assessment and other nutrition-related evaluations).",
+"Guided students in portion preparation and nutritional analysis in lab settings.",
+"Evaluated and graded assignments, ensuring constructive feedback to support student learning."
             ]
           },
           {
@@ -219,7 +230,7 @@ const panelsData: PanelItemData[] = [
         <div className="space-y-6 text-sm sm:text-base">
 <SectionTitle icon={<SparklesIcon />} title="Honors & Awards" />
         <ul className="list-disc list-inside text-gray-300 space-y-1 ml-2 text-xs sm:text-sm">
-	    <li>Institutional Methodology Scholarship, University of Nevada, Reno I 2025</li>
+	    <li>Florence Rittenhouse and Edith R. Hedges Scholarship, University of Nevada, Reno I 2025</li>
                     </ul>
 
         <SectionTitle icon={<SparklesIcon />} title="Leadership & Services" />
@@ -236,6 +247,12 @@ const panelsData: PanelItemData[] = [
         <ul className="list-disc list-inside text-gray-300 space-y-1 ml-2 text-xs sm:text-sm">
             <li>Using Python for Research (Harvard T.H. CHAN, Nov 2023)
               <a href="https://colab.research.google.com/drive/1QkIX3418xx11J5ggjkoEbhNQdIk9FPED?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-200 ml-1 group">
+                (View Sample <LinkIcon className="inline w-3 h-3" />)
+              </a>
+            </li>
+<li>Basic Introduction to Biosafety
+ (CITI, Jan 2025)
+              <a href="https://www.citiprogram.org/verify/?w7fda7bd7-4041-45b1-acec-1cc8fc2c8828-67276277" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-200 ml-1 group">
                 (View Sample <LinkIcon className="inline w-3 h-3" />)
               </a>
             </li>
