@@ -18,32 +18,19 @@ const CorrectedPanel: React.FC<PanelProps> = ({ title, backgroundImageUrl, isAct
     whitespace-nowrap
   `;
 
-  const h3ActiveClasses = `opacity-100 text-2xl sm:text-3xl`;
-  const h3InactiveClasses = `opacity-90 text-lg`;
-
-  const h3Styles: React.CSSProperties = {
-    // Common styles handled by h3BaseClasses or set dynamically below
-  };
-
-  if (isActive) {
-    h3Styles.top = '1.25rem';
-    h3Styles.left = '1.25rem';
-    h3Styles.transform = 'rotate(0deg)';
-    h3Styles.transformOrigin = 'top left'; // Origin for the active, horizontal state
-  } else {
-    // For inactive panels, text is at bottom-left, rotated -90deg
-    h3Styles.left = '1.25rem'; 
-    h3Styles.bottom = '1.25rem'; 
-    h3Styles.transform = 'rotate(-90deg)';
-    h3Styles.transformOrigin = 'bottom left'; // Rotate around the text's own bottom-left
-  }
+  // Active panel: title sits top-left on every screen size.
+  // Inactive panel: on mobile the panels are stacked horizontal bars, so the
+  // title stays horizontal and vertically centered; on desktop the rotated
+  // title is centered (not bottom-anchored) in the collapsed vertical panel.
+  const h3ActiveClasses = `opacity-100 text-2xl sm:text-3xl top-5 left-5`;
+  const h3InactiveClasses = `opacity-90 text-lg top-1/2 left-5 -translate-y-1/2 md:left-1/2 md:-translate-x-1/2 md:-rotate-90`;
 
   return (
     <div
       className={`
-        relative bg-cover bg-center h-[80vh] rounded-[50px] text-white cursor-pointer m-2.5 
-        transition-[flex] duration-700 ease-in-out
-        ${isActive ? 'flex-[5]' : 'flex-[0.5]'}
+        relative bg-cover bg-center rounded-[50px] text-white cursor-pointer m-2.5 
+        transition-all duration-700 ease-in-out
+        ${isActive ? 'h-[70vh] md:h-[80vh] md:flex-[5]' : 'h-16 md:h-[80vh] md:flex-[0.5]'}
         ${displayClass}
       `}
       style={{ backgroundImage: `url(${backgroundImageUrl})` }}
@@ -58,7 +45,6 @@ const CorrectedPanel: React.FC<PanelProps> = ({ title, backgroundImageUrl, isAct
       
       <h3
         className={`${h3BaseClasses} ${isActive ? h3ActiveClasses : h3InactiveClasses}`}
-        style={h3Styles}
       >
         {title}
       </h3>

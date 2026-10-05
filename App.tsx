@@ -58,7 +58,7 @@ const panelsData: PanelItemData[] = [
             <EmailIcon className="w-5 h-5 text-sky-400" /> <a href="mailto:spromitee@unr.edu" className="hover:text-sky-300">spromitee@unr.edu</a>
           </div>
           <div className="flex items-center space-x-2 text-gray-200">
-            <LocationIcon className="w-5 h-5 text-sky-400" /> <span>920 Evans Ave, 332-A, Reno, NV-89512</span>
+            <LocationIcon className="w-5 h-5 text-sky-400" /> <span>San Francisco, CA</span>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@ const panelsData: PanelItemData[] = [
           <div className="p-3 bg-white/10 rounded-lg">
             <h4 className="font-semibold text-sky-100">Master of Science in Clinical Nutrition</h4>
             <p className="text-gray-300">University of Nevada, Reno</p>
-            <p className="text-gray-400 text-xs sm:text-sm">August 26, 2024 - Present</p>
+            <p className="text-gray-400 text-xs sm:text-sm">August 26, 2024 - May 2026</p>
           </div>
           <div className="p-3 bg-white/10 rounded-lg">
             <h4 className="font-semibold text-sky-100">Bachelor of Medicine and Bachelor of Surgery</h4>
@@ -121,7 +121,7 @@ const panelsData: PanelItemData[] = [
         {[
 	  {
             role: "Research Intern",
-            org: "Kaiser Parmanente - Vallejo Medical Center",
+            org: "Kaiser Permanente - Vallejo Medical Center",
             date: "May 2025 - July 2025",
             points: [
               "Supported program development, implementation, and evaluation; participated in patient care and data analysis.",
@@ -198,6 +198,10 @@ const panelsData: PanelItemData[] = [
           <p className="text-gray-300 text-xs sm:text-sm">Investigating inflammatory biomarkers (cytokines, adipokines) for early Gestational Diabetes Mellitus diagnosis under Dr. Barrett Welch. Aim: improve clinical outcomes for pregnant women (GDM affects {'>'}45 million globally).</p>
         </div>
         <div className="p-3 bg-white/10 rounded-lg">
+          <h4 className="font-semibold text-sky-100">Conference Presentation</h4>
+          <p className="text-gray-300 text-xs sm:text-sm">Oral Presentation, Society for Pediatric and Perinatal Epidemiologic Research (SPER) Annual Meeting, 2026: "Early-pregnancy bioactive lipids and gestational glucose homeostasis" (manuscript in preparation).</p>
+        </div>
+        <div className="p-3 bg-white/10 rounded-lg">
           <h4 className="font-semibold text-sky-100">Research Physician/ Program Coordinator</h4>
           <p className="text-gray-300 italic">Graduate School of Biomedical and Health Sciences, Hiroshima University (Mar 2019 – Mar 2020)</p>
           <ul className="list-disc list-inside text-gray-300 space-y-1 mt-1 text-xs sm:text-sm">
@@ -231,6 +235,7 @@ const panelsData: PanelItemData[] = [
 <SectionTitle icon={<SparklesIcon />} title="Honors & Awards" />
         <ul className="list-disc list-inside text-gray-300 space-y-1 ml-2 text-xs sm:text-sm">
 	    <li>Florence Rittenhouse and Edith R. Hedges Scholarship, University of Nevada, Reno I 2025</li>
+	    <li>Inductee, Phi Kappa Phi Honor Society | 2026</li>
                     </ul>
 
         <SectionTitle icon={<SparklesIcon />} title="Leadership & Services" />
@@ -292,7 +297,7 @@ const App: React.FC = () => {
 
   return (
     <div className="font-['Muli'] bg-gray-900 min-h-screen flex items-center justify-center p-4 sm:p-6">
-      <div className="flex w-full"> {/* Removed max-w-6xl */}
+      <div className="flex flex-col md:flex-row w-full"> {/* Stacked horizontal bars on mobile, vertical panels on desktop */}
         {panelsData.map((panel, index) => {
           // All panels are now always visible
           const displayClass = 'flex';
