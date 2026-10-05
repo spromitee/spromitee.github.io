@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Job Watch</title>
+<style>
+  :root { --bg:#0f172a; --card:#1e293b; --line:#334155; --txt:#e2e8f0; --dim:#94a3b8; --acc:#38bdf8; --good:#4ade80; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  header { position:sticky; top:0; z-index:10; background:rgba(15,23,42,.95); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); padding:12px 16px; }
+  header h1 { margin:0 0 2px; font-size:20px; }
+  header p { margin:0; color:var(--dim); font-size:12px; }
+  .controls { display:flex; gap:8px; flex-wrap:wrap; padding:12px 16px 0; max-width:900px; margin:0 auto; }
+  .controls input[type=search] { flex:1 1 200px; padding:10px 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--txt); font-size:14px; }
+  .tabs { display:flex; gap:8px; padding:12px 16px 0; max-width:900px; margin:0 auto; }
+  .tabs button { flex:1; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--txt); font-size:14px; cursor:pointer; }
+  .tabs button.on { background:var(--acc); border-color:var(--acc); color:#082f49; font-weight:700; }
+  #list { padding:12px 16px 40px; max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:10px; }
+  .job { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; }
+  .job.applied { opacity:.75; border-left:4px solid var(--good); }
+  .job h2 { margin:0 0 4px; font-size:16px; line-height:1.35; }
+  .meta { color:var(--dim); font-size:13px; margin-bottom:6px; }
+  .why { font-size:13px; color:var(--dim); margin:6px 0 10px; font-style:italic; }
+  .fit { display:inline-block; font-size:12px; font-weight:700; border-radius:20px; padding:2px 10px; margin-bottom:8px; }
+  .fit.hi { background:#14532d; color:#86efac; } .fit.md { background:#713f12; color:#fde68a; } .fit.lo { background:#334155; color:#cbd5e1; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; }
+  .row a, .row button { font-size:13px; padding:8px 14px; border-radius:10px; border:1px solid var(--line); cursor:pointer; text-decoration:none; }
+  .btn-apply { background:var(--acc); border-color:var(--acc); color:#082f49; font-weight:700; }
+  .btn-ghost { background:transparent; color:var(--txt); }
+  .btn-applied { background:var(--good); border-color:var(--good); color:#052e16; font-weight:700; }
+  .empty { text-align:center; color:var(--dim); padding:40px 0; }
+  .src { font-size:11px; color:var(--dim); margin-top:8px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Job Watch</h1>
+  <p id="sub">Loading…</p>
+</header>
+<div class="controls"><input id="q" type="search" placeholder="Search title, employer, location…"></div>
+<div class="tabs">
+  <button data-t="new" class="on">To apply <span id="c-new"></span></button>
+  <button data-t="applied">Applied <span id="c-app"></span></button>
+  <button data-t="all">All <span id="c-all"></span></button>
+</div>
+<div id="list"></div>
+<script>
+const LS_KEY = "jobwatch-applied-overrides-v1";
+let JOBS = [], TAB = "new", Q = "";
+const overrides = () => { try { return JSON.parse(localStorage.getItem(LS_KEY) || "{}"); } catch(e){ return {}; } };
+const effApplied = j => { const o = overrides(); return (j.id in o) ? !!o[j.id] : !!j.applied; };
+
+fetch("jobs.json").then(r => r.json()).then(d => {
+  JOBS = d.jobs || [];
+  document.getElementById("sub").textContent = JOBS.length + " jobs · updated " + (d.updated_at || "").slice(0,10);
+  render();
+});
+
+document.getElementById("q").addEventListener("input", e => { Q = e.target.value.toLowerCase(); render(); });
+document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".tabs button").forEach(x => x.classList.remove("on"));
+  b.classList.add("on"); TAB = b.dataset.t; render();
+}));
+
+function fitCls(f){ return f >= 85 ? "hi" : f >= 70 ? "md" : "lo"; }
+
+function render(){
+  const list = document.getElementById("list");
+  let items = JOBS.map(j => ({...j, _a: effApplied(j)}));
+  const nNew = items.filter(j=>!j._a).length, nApp = items.filter(j=>j._a).length;
+  document.getElementById("c-new").textContent = "("+nNew+")";
+  document.getElementById("c-app").textContent = "("+nApp+")";
+  document.getElementById("c-all").textContent = "("+items.length+")";
+  if (TAB === "new") items = items.filter(j=>!j._a);
+  if (TAB === "applied") items = items.filter(j=>j._a);
+  if (Q) items = items.filter(j => ((j.title||"")+" "+(j.employer||"")+" "+(j.location||"")).toLowerCase().includes(Q));
+  items.sort((a,b) => (b.fit||0)-(a.fit||0));
+  if (!items.length){ list.innerHTML = '<div class="empty">Nothing here.</div>'; return; }
+  list.innerHTML = items.map(j => `
+    <div class="job${j._a?" applied":""}">
+      <span class="fit ${fitCls(j.fit||0)}">fit ${j.fit||"–"}</span>
+      <h2>${esc(j.title)}</h2>
+      <div class="meta">${esc(j.employer||"")}${j.location?" · "+esc(j.location):""}${j.posted?" · posted "+esc(j.posted):""}</div>
+      ${j.why?`<div class="why">${esc(j.why)}</div>`:""}
+      ${j.note?`<div class="why">${esc(j.note)}</div>`:""}
+      <div class="row">
+        <a class="btn-apply" href="${esc(j.apply_url)}" target="_blank" rel="noopener">Apply →</a>
+        <button class="btn-ghost" onclick="copyLink(${j.id})">Copy link</button>
+        <button class="${j._a?"btn-applied":"btn-ghost"}" onclick="toggle(${j.id})">${j._a?"✓ Applied":"Mark applied"}</button>
+      </div>
+      ${j.source?`<div class="src">${esc(j.source)}</div>`:""}
+    </div>`).join("");
+}
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function copyLink(id){
+  const j = JOBS.find(x=>x.id===id); if(!j) return;
+  (navigator.clipboard?navigator.clipboard.writeText(j.apply_url):Promise.reject()).then(
+    ()=>toast("Link copied"), ()=>toast("Copy failed"));
+}
+function toggle(id){
+  const o = overrides(); const j = JOBS.find(x=>x.id===id);
+  o[id] = !effApplied(j||{id,applied:false});
+  localStorage.setItem(LS_KEY, JSON.stringify(o)); render();
+}
+let toastT;
+function toast(msg){
+  clearTimeout(toastT);
+  let t = document.getElementById("toast");
+  if(!t){ t=document.createElement("div"); t.id="toast";
+    t.style.cssText="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#38bdf8;color:#082f49;padding:10px 20px;border-radius:20px;font-weight:700;z-index:99;";
+    document.body.appendChild(t); }
+  t.textContent = msg; t.style.display="block";
+  toastT = setTimeout(()=>t.style.display="none", 1600);
+}
+</script>
+</body>
+</html>
