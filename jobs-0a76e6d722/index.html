@@ -17,6 +17,10 @@
   .tabs { display:flex; gap:8px; padding:12px 16px 0; max-width:900px; margin:0 auto; }
   .tabs button { flex:1; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--txt); font-size:14px; cursor:pointer; }
   .tabs button.on { background:var(--acc); border-color:var(--acc); color:#082f49; font-weight:700; }
+  .sort { display:flex; gap:8px; padding:12px 16px 0; max-width:900px; margin:0 auto; align-items:center; }
+  .sort span { color:var(--dim); font-size:13px; }
+  .sort button { padding:8px 14px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--txt); font-size:13px; cursor:pointer; }
+  .sort button.on { background:var(--acc); border-color:var(--acc); color:#082f49; font-weight:700; }
   #list { padding:12px 16px 40px; max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:10px; }
   .job { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; }
   .job.applied { opacity:.75; border-left:4px solid var(--good); }
@@ -40,6 +44,10 @@
   <p id="sub">Loading…</p>
 </header>
 <div class="controls"><input id="q" type="search" placeholder="Search title, employer, location…"></div>
+<div class="sort"><span>Sort by</span>
+  <button data-s="fit" class="on">Fit score</button>
+  <button data-s="added">Date added</button>
+</div>
 <div class="tabs">
   <button data-t="new" class="on">To apply <span id="c-new"></span></button>
   <button data-t="applied">Applied <span id="c-app"></span></button>
@@ -48,7 +56,7 @@
 <div id="list"></div>
 <script>
 const LS_KEY = "jobwatch-applied-overrides-v1";
-let JOBS = [], TAB = "new", Q = "";
+let JOBS = [], TAB = "new", Q = "", SORT = "fit";
 const overrides = () => { try { return JSON.parse(localStorage.getItem(LS_KEY) || "{}"); } catch(e){ return {}; } };
 const effApplied = j => { const o = overrides(); return (j.id in o) ? !!o[j.id] : !!j.applied; };
 
@@ -64,7 +72,18 @@ document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click
   b.classList.add("on"); TAB = b.dataset.t; render();
 }));
 
+document.querySelectorAll(".sort button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".sort button").forEach(x => x.classList.remove("on"));
+  b.classList.add("on"); SORT = b.dataset.s; render();
+}));
+
 function fitCls(f){ return f >= 85 ? "hi" : f >= 70 ? "md" : "lo"; }
+function addedLabel(iso){
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso||""));
+  if(!m) return String(iso||"").slice(0,10);
+  const mon = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+m[2]-1];
+  return mon+" "+(+m[3]);
+}
 
 function render(){
   const list = document.getElementById("list");
@@ -76,13 +95,14 @@ function render(){
   if (TAB === "new") items = items.filter(j=>!j._a);
   if (TAB === "applied") items = items.filter(j=>j._a);
   if (Q) items = items.filter(j => ((j.title||"")+" "+(j.employer||"")+" "+(j.location||"")).toLowerCase().includes(Q));
-  items.sort((a,b) => (b.fit||0)-(a.fit||0));
+  if (SORT === "added") items.sort((a,b) => String(b.added||"").localeCompare(String(a.added||"")));
+  else items.sort((a,b) => (b.fit||0)-(a.fit||0));
   if (!items.length){ list.innerHTML = '<div class="empty">Nothing here.</div>'; return; }
   list.innerHTML = items.map(j => `
     <div class="job${j._a?" applied":""}">
       <span class="fit ${fitCls(j.fit||0)}">fit ${j.fit||"–"}</span>
       <h2>${esc(j.title)}</h2>
-      <div class="meta">${esc(j.employer||"")}${j.location?" · "+esc(j.location):""}${j.posted?" · posted "+esc(j.posted):""}</div>
+      <div class="meta">${esc(j.employer||"")}${j.location?" · "+esc(j.location):""}${j.posted?" · posted "+esc(j.posted):""}${j.added?" · added "+esc(addedLabel(j.added)):""}</div>
       ${j.why?`<div class="why">${esc(j.why)}</div>`:""}
       ${j.note?`<div class="why">${esc(j.note)}</div>`:""}
       <div class="row">
