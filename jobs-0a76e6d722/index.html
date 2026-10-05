@@ -60,7 +60,7 @@ let JOBS = [], TAB = "new", Q = "", SORT = "fit";
 const overrides = () => { try { return JSON.parse(localStorage.getItem(LS_KEY) || "{}"); } catch(e){ return {}; } };
 const effApplied = j => { const o = overrides(); return (j.id in o) ? !!o[j.id] : !!j.applied; };
 
-fetch("jobs.json").then(r => r.json()).then(d => {
+fetch("jobs.json?v=" + Date.now()).then(r => r.json()).then(d => {
   JOBS = d.jobs || [];
   document.getElementById("sub").textContent = JOBS.length + " jobs · updated " + (d.updated_at || "").slice(0,10);
   render();
