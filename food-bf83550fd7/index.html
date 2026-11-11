@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Sumaita&rsquo;s Food Tracker</title>
+<style>
+  :root { --bg:#0f172a; --card:#1e293b; --line:#334155; --txt:#e2e8f0; --dim:#94a3b8; --acc:#38bdf8; --good:#4ade80; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  header { position:sticky; top:0; z-index:10; background:rgba(15,23,42,.95); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); padding:12px 16px; }
+  header h1 { margin:0 0 2px; font-size:20px; }
+  header p { margin:0; color:var(--dim); font-size:12px; }
+  .wrap { max-width:900px; margin:0 auto; padding:12px 16px 40px; }
+  .tabs { display:flex; gap:8px; }
+  .tabs button { flex:1; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--txt); font-size:14px; cursor:pointer; }
+  .tabs button.on { background:var(--acc); border-color:var(--acc); color:#082f49; font-weight:700; }
+  .weeknav { display:flex; gap:8px; align-items:center; margin-top:12px; }
+  .weeknav button { padding:8px 14px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--txt); font-size:14px; cursor:pointer; }
+  .weeknav span { flex:1; text-align:center; color:var(--dim); font-size:13px; }
+  .progress { margin-top:12px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; }
+  .progress .nums { font-size:14px; margin-bottom:8px; }
+  .progress .nums b { color:var(--good); }
+  .bar { height:8px; border-radius:4px; background:#0f172a; overflow:hidden; }
+  .bar i { display:block; height:100%; background:var(--good); width:0; }
+  .day { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-top:10px; }
+  .day.today { border-color:var(--acc); }
+  .day h2 { margin:0 0 2px; font-size:16px; line-height:1.35; }
+  .day h2 .tag { font-size:11px; font-weight:700; color:#082f49; background:var(--acc); border-radius:20px; padding:2px 8px; vertical-align:2px; margin-left:6px; }
+  .day .meta { color:var(--dim); font-size:13px; margin-bottom:10px; }
+  .meal { display:flex; gap:10px; align-items:flex-start; padding:10px 0; border-top:1px solid var(--line); cursor:pointer; }
+  .meal:first-of-type { border-top:none; }
+  .meal input { width:20px; height:20px; margin:2px 0 0; accent-color:var(--good); flex:none; cursor:pointer; }
+  .meal .label { font-size:12px; font-weight:700; color:var(--dim); text-transform:uppercase; letter-spacing:.04em; width:74px; flex:none; padding-top:3px; }
+  .meal .food { font-size:14px; line-height:1.45; }
+  .meal.done .food { text-decoration:line-through; opacity:.6; }
+  .tips { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-top:10px; font-size:13px; color:var(--dim); line-height:1.6; }
+  .tips b { color:var(--txt); }
+  footer { margin-top:16px; font-size:12px; color:var(--dim); line-height:1.6; }
+  .clear { margin-top:12px; width:100%; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--dim); font-size:13px; cursor:pointer; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Sumaita&rsquo;s Food Tracker</h1>
+  <p>1,600&ndash;1,800 cal/day &middot; Protein 90&ndash;110 g/day &middot; Bangladeshi meals &middot; No beef, mutton or pork</p>
+</header>
+<div class="wrap">
+  <div class="tabs">
+    <button id="tabToday" class="on">Today</button>
+    <button id="tabWeek">This week</button>
+  </div>
+  <div class="weeknav">
+    <button id="prevWeek">&lsaquo; Prev</button>
+    <span id="weekLabel"></span>
+    <button id="nextWeek">Next &rsaquo;</button>
+  </div>
+  <div class="progress">
+    <div class="nums" id="progressText"></div>
+    <div class="bar"><i id="progressBar"></i></div>
+  </div>
+  <div id="list"></div>
+  <div class="tips">
+    <b>Getting started</b><br>
+    Weigh food and portions for the first 1&ndash;2 weeks, then switch to portion control by estimation. Drink water before meals. 30 minutes of light activity each day (e.g. walking).
+  </div>
+  <button class="clear" id="clearBtn">Clear all checkmarks for this week</button>
+  <footer>
+    This is a sample weekly plan, not medical advice. Talk to a doctor or a registered dietitian before starting a weight-loss plan, and get any symptoms checked first.
+  </footer>
+</div>
+<script>
+  // Weekly plan, indexed by JS day: 0 = Sunday ... 6 = Saturday
+  var PLAN = {
+    0: { breakfast: "2 boiled eggs + 1 whole-wheat roti", lunch: "Rice + fish + dal + vegetables", snack: "Apple + yogurt", dinner: "Chicken + vegetables + rice" },
+    1: { breakfast: "2 boiled eggs + 1 whole-wheat roti", lunch: "Rice + fish + dal + vegetables", snack: "Apple + yogurt", dinner: "Chicken + vegetables + roti" },
+    2: { breakfast: "Oats + milk + banana", lunch: "Rice + soy + vegetables", snack: "Egg + cucumber", dinner: "Dal + fish + vegetables" },
+    3: { breakfast: "2 boiled eggs + 1 whole-wheat roti", lunch: "Rice + chicken + dal + vegetables", snack: "Yogurt + peanuts", dinner: "Fish + vegetables + rice" },
+    4: { breakfast: "Oats + milk + banana", lunch: "Rice + fish + dal + vegetables", snack: "Apple + yogurt", dinner: "Chicken + vegetables + rice" },
+    5: { breakfast: "2 boiled eggs + 1 whole-wheat roti", lunch: "Rice + soy + vegetables", snack: "Egg + cucumber", dinner: "Dal + fish + vegetables" },
+    6: { breakfast: "Oats + milk + banana", lunch: "Rice + chicken + dal + vegetables", snack: "Yogurt + peanuts", dinner: "Fish + vegetables + rice" }
+  };
+  var MEALS = ["breakfast", "lunch", "snack", "dinner"];
+  var DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  var KEY = "food-bf83550fd7-checks";
+
+  function loadChecks() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
+  function saveChecks(c) { localStorage.setItem(KEY, JSON.stringify(c)); }
+  var checks = loadChecks();
+
+  function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function fmt(d) { return MONTHS[d.getMonth()] + " " + d.getDate(); }
+  function mondayOf(d) { var x = new Date(d); var off = (x.getDay() + 6) % 7; x.setDate(x.getDate() - off); x.setHours(0, 0, 0, 0); return x; }
+
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  var viewMonday = mondayOf(today);
+  var mode = "today";
+
+  function render() {
+    var list = document.getElementById("list");
+    list.innerHTML = "";
+    var days = [];
+    if (mode === "today") {
+      days = [new Date(today)];
+    } else {
+      for (var i = 0; i < 7; i++) { var d = new Date(viewMonday); d.setDate(d.getDate() + i); days.push(d); }
+    }
+    var weekEnd = new Date(viewMonday); weekEnd.setDate(weekEnd.getDate() + 6);
+    document.getElementById("weekLabel").textContent = mode === "today"
+      ? DAY_NAMES[today.getDay()] + ", " + fmt(today)
+      : fmt(viewMonday) + " \u2013 " + fmt(weekEnd) + ", " + weekEnd.getFullYear();
+
+    var doneToday = 0, doneWeek = 0, totalWeek = 0;
+    days.forEach(function (d) {
+      var plan = PLAN[d.getDay()];
+      var done = 0;
+      var card = document.createElement("div");
+      card.className = "day" + (iso(d) === iso(today) ? " today" : "");
+      var h = document.createElement("h2");
+      h.textContent = DAY_NAMES[d.getDay()] + ", " + fmt(d);
+      if (iso(d) === iso(today)) { var t = document.createElement("span"); t.className = "tag"; t.textContent = "TODAY"; h.appendChild(t); }
+      card.appendChild(h);
+      var meta = document.createElement("div");
+      meta.className = "meta";
+      card.appendChild(meta);
+      MEALS.forEach(function (m) {
+        var key = iso(d) + ":" + m;
+        var isDone = !!checks[key];
+        if (isDone) done++;
+        var row = document.createElement("label");
+        row.className = "meal" + (isDone ? " done" : "");
+        var box = document.createElement("input");
+        box.type = "checkbox";
+        box.checked = isDone;
+        box.addEventListener("change", function () {
+          checks[key] = box.checked;
+          if (!box.checked) delete checks[key];
+          saveChecks(checks);
+          render();
+        });
+        var lab = document.createElement("span");
+        lab.className = "label";
+        lab.textContent = m;
+        var food = document.createElement("span");
+        food.className = "food";
+        food.textContent = plan[m];
+        row.appendChild(box); row.appendChild(lab); row.appendChild(food);
+        card.appendChild(row);
+      });
+      meta.textContent = done + " of 4 meals done";
+      list.appendChild(card);
+      if (iso(d) === iso(today)) doneToday = done;
+      doneWeek += done; totalWeek += 4;
+    });
+    // Week totals always span the viewed week (or today in Today mode)
+    var wDone = 0, wTotal = 0;
+    for (var j = 0; j < 7; j++) {
+      var wd = new Date(mode === "today" ? mondayOf(today) : viewMonday);
+      wd.setDate(wd.getDate() + j);
+      MEALS.forEach(function (m) { wTotal++; if (checks[iso(wd) + ":" + m]) wDone++; });
+    }
+    document.getElementById("progressText").innerHTML =
+      "Today: <b>" + doneToday + " / 4</b> meals &nbsp;&middot;&nbsp; This week: <b>" + wDone + " / " + wTotal + "</b> meals";
+    document.getElementById("progressBar").style.width = (wTotal ? Math.round(wDone / wTotal * 100) : 0) + "%";
+    document.getElementById("tabToday").className = mode === "today" ? "on" : "";
+    document.getElementById("tabWeek").className = mode === "week" ? "on" : "";
+  }
+
+  document.getElementById("tabToday").addEventListener("click", function () { mode = "today"; render(); });
+  document.getElementById("tabWeek").addEventListener("click", function () { mode = "week"; render(); });
+  document.getElementById("prevWeek").addEventListener("click", function () { mode = "week"; viewMonday.setDate(viewMonday.getDate() - 7); render(); });
+  document.getElementById("nextWeek").addEventListener("click", function () { mode = "week"; viewMonday.setDate(viewMonday.getDate() + 7); render(); });
+  document.getElementById("clearBtn").addEventListener("click", function () {
+    var base = mode === "today" ? mondayOf(today) : viewMonday;
+    for (var j = 0; j < 7; j++) {
+      var wd = new Date(base); wd.setDate(wd.getDate() + j);
+      MEALS.forEach(function (m) { delete checks[iso(wd) + ":" + m]; });
+    }
+    saveChecks(checks);
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>
