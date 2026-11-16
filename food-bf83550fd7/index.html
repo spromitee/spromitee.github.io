@@ -35,6 +35,16 @@
   .meal .label { font-size:12px; font-weight:700; color:var(--dim); text-transform:uppercase; letter-spacing:.04em; width:74px; flex:none; padding-top:3px; }
   .meal .food { font-size:14px; line-height:1.45; }
   .meal.done .food { text-decoration:line-through; opacity:.6; }
+  .guide { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-top:10px; font-size:13px; color:var(--dim); line-height:1.6; }
+  .guide h3 { margin:0 0 8px; font-size:15px; color:var(--txt); }
+  .guide b { color:var(--txt); }
+  .guide ol, .guide ul { margin:6px 0 0; padding-left:20px; }
+  .guide li { margin-bottom:4px; }
+  .guide li b { color:var(--txt); }
+  .guide table { width:100%; border-collapse:collapse; margin-top:8px; font-size:13px; }
+  .guide th, .guide td { text-align:left; padding:6px 4px; border-top:1px solid var(--line); vertical-align:top; }
+  .guide th { color:var(--txt); }
+  .guide a { color:var(--acc); }
   .tips { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-top:10px; font-size:13px; color:var(--dim); line-height:1.6; }
   .tips b { color:var(--txt); }
   footer { margin-top:16px; font-size:12px; color:var(--dim); line-height:1.6; }
@@ -44,7 +54,7 @@
 <body>
 <header>
   <h1>Sumaita&rsquo;s Food Tracker</h1>
-  <p>1,600&ndash;1,800 cal/day &middot; Protein 90&ndash;110 g/day &middot; Bangladeshi meals &middot; No beef, mutton or pork</p>
+  <p>30g protein / meal &middot; &le;30g carbs at dinner &middot; Fiber &rarr; Protein &rarr; Carbs</p>
 </header>
 <div class="wrap">
   <div class="tabs">
@@ -61,25 +71,71 @@
     <div class="bar"><i id="progressBar"></i></div>
   </div>
   <div id="list"></div>
+
+  <div class="guide">
+    <h3>The golden rule: sequence your plate</h3>
+    <ol>
+      <li><b>Fiber first</b> &mdash; korola (bitter melon), dherosh (okra), begun / sim bhaji, or fresh shosha (cucumber). Coats the stomach and slows gastric emptying.</li>
+      <li><b>Protein next (~30g)</b> &mdash; 2 pieces chicken, beef or duck, or 1 large fish steak + 1&ndash;2 eggs, before touching starch.</li>
+      <li><b>Smart carb last (&le;30g at dinner)</b> &mdash; 50/50 cauli&ndash;lal chal rice, besan / almond roti, or konjac rice soaked in your remaining jhol.</li>
+    </ol>
+    <p style="margin:8px 0 0">The habit shift: instead of mashing rice, bhaji and jhol together from bite #1, eat half your bhaji and one piece of fish or meat plain first &mdash; then mix the rest.</p>
+  </div>
+
+  <div class="guide">
+    <h3>Smart swaps: how Deshi bases fit the 30g dinner cap</h3>
+    <table>
+      <tr><th>Base</th><th>Carbs</th><th>Note</th></tr>
+      <tr><td>White rice, 2 cups</td><td>90g</td><td>3x over the dinner limit</td></tr>
+      <tr><td>2 regular wheat atta rotis</td><td>36g</td><td>Slightly over &mdash; keep to 1.5</td></tr>
+      <tr><td>2/3 cup lal chal (red rice)</td><td>28g</td><td>Fits the cap &mdash; real rice</td></tr>
+      <tr><td>50/50: 1/3 cup rice + 1 cup dry-roasted phulkopi</td><td>20g</td><td>Huge fluffy pile &mdash; best for jhol</td></tr>
+      <tr><td>2 besan-atta or masoor dal rotis</td><td>18g</td><td>High protein, slow digesting</td></tr>
+      <tr><td>2 almond flour + isabgol rotis, or konjac rice</td><td>4g</td><td>Ultra-low carb</td></tr>
+    </table>
+    <p style="margin:8px 0 0"><b>The 50/50 trick:</b> grate phulkopi, dry-roast it in a hot wide pan for 4 minutes, then fold 1 cup roasted cauliflower (~5g carbs) with 1/3 cup cooked lal chal (~15g). Pour hot jhol over it &mdash; the texture is virtually indistinguishable from full white rice.</p>
+    <p style="margin:8px 0 0">How-to videos: <a href="https://www.youtube.com/watch?v=uRsn3kkm5o4">cauliflower rice</a> &middot; <a href="https://www.youtube.com/watch?v=saFvjUyfxgo">chaal phulkopi</a> &middot; <a href="https://www.youtube.com/watch?v=KtOV7E8cdG0">konjac rice</a> &middot; <a href="https://www.youtube.com/watch?v=t6CIs7xLjgM">savory dalia</a> &middot; <a href="https://www.youtube.com/watch?v=Cc-aY3kKCYU">besan roti</a> &middot; <a href="https://www.youtube.com/watch?v=-7U5Vd8ZD0M">almond + isabgol roti</a> &middot; <a href="https://www.youtube.com/watch?v=W2Ony4N-afo">masoor dal flatbread</a></p>
+  </div>
+
+  <div class="guide">
+    <h3>Hit ~30g protein per meal</h3>
+    <ul>
+      <li>2 generous curry pieces of chicken, beef or duck (~4.5 oz cooked) &mdash; ~32g</li>
+      <li>1 large fish piece (rui / ilish / salmon) + 2 eggs &mdash; ~32g</li>
+      <li>1 large fish piece + 1/2 cup thick masoor dal &mdash; ~30g</li>
+      <li>3 whole eggs + 2 egg whites + 1 besan roti &mdash; ~31g</li>
+    </ul>
+    <h3 style="margin-top:12px">Keep in mind</h3>
+    <ul>
+      <li>Skip aloo (potato) inside curries &mdash; it spikes glucose just like white rice.</li>
+      <li>Dal counts toward carbs too: 1 cup thick dal adds ~20&ndash;25g carbs.</li>
+      <li>Measure cooking oil: 1&ndash;2 tbsp mustard, avocado or olive oil instead of heavy cooking oil or ghee.</li>
+      <li>Keep misti kumra (sweet pumpkin) and sweet corn minimal; swap pepe (green papaya) or mula (radish) into curries.</li>
+    </ul>
+  </div>
+
   <div class="tips">
     <b>Getting started</b><br>
-    Weigh food and portions for the first 1&ndash;2 weeks, then switch to portion control by estimation. Drink water before meals. 30 minutes of light activity each day (e.g. walking).
+    Eat fiber first, then protein, then carbs &mdash; especially at dinner. Keep the curries you love; only the base changes. Weigh food and portions for the first 1&ndash;2 weeks, then switch to portion control by estimation. Drink water before meals.
   </div>
   <button class="clear" id="clearBtn">Clear all checkmarks for this week</button>
   <footer>
-    This is a sample weekly plan, not medical advice. Talk to a doctor or a registered dietitian before starting a weight-loss plan, and get any symptoms checked first.
+    Educational meal guide aligned with Dr. Kotian&rsquo;s care notes. Always confirm medical changes with your Kaiser care team.
   </footer>
 </div>
 <script>
   // Weekly plan, indexed by JS day: 0 = Sunday ... 6 = Saturday
+  // Each meal follows the guide's sequence: fiber first, then ~30g protein, then a smart carb.
+  // Dinners rotate the guide's three plug-and-play menus: A = Maacher Jhol & Korola,
+  // B = Haash / Beef Bhuna, C = Murgi Kosha, Dim & Dherosh.
   var PLAN = {
-    0: { breakfast: "2 boiled eggs + vegetables", lunch: "Fish + dal + vegetables", snack: "Apple + yogurt", dinner: "Chicken + vegetables" },
-    1: { breakfast: "2 boiled eggs + vegetables", lunch: "Fish + dal + vegetables", snack: "Apple + yogurt", dinner: "Chicken + vegetables" },
-    2: { breakfast: "Oats + milk + banana", lunch: "Dal + vegetables", snack: "Egg + cucumber", dinner: "Dal + fish + vegetables" },
-    3: { breakfast: "2 boiled eggs + vegetables", lunch: "Chicken + dal + vegetables", snack: "Yogurt + peanuts", dinner: "Fish + vegetables" },
-    4: { breakfast: "Oats + milk + banana", lunch: "Fish + dal + vegetables", snack: "Apple + yogurt", dinner: "Chicken + vegetables" },
-    5: { breakfast: "2 boiled eggs + vegetables", lunch: "Dal + vegetables", snack: "Egg + cucumber", dinner: "Dal + fish + vegetables" },
-    6: { breakfast: "Oats + milk + banana", lunch: "Chicken + dal + vegetables", snack: "Yogurt + peanuts", dinner: "Fish + vegetables" }
+    0: { breakfast: "3 eggs + 2 egg whites + 1 besan roti (~31g protein)", lunch: "Korola bhaji first \u2192 1 large fish piece + 2 eggs \u2192 1 besan-atta roti (~32g protein)", snack: "Tok doi + cucumber slices", dinner: "Korola bhaji + cucumber first \u2192 rui in jhol + boiled egg \u2192 50/50 phulkopi + lal chal (~33g protein \u00b7 ~22g carbs)" },
+    1: { breakfast: "3 eggs + 2 egg whites + 1 besan roti (~31g protein)", lunch: "Dherosh bhaji first \u2192 1 large fish piece + 1/2 cup thick masoor dal \u2192 50/50 phulkopi + lal chal (~30g protein)", snack: "1 boiled egg + cucumber slices", dinner: "Korola bhaji + cucumber first \u2192 rui in jhol + boiled egg \u2192 50/50 phulkopi + lal chal (~33g protein \u00b7 ~22g carbs)" },
+    2: { breakfast: "1 large fish piece + 2 boiled eggs (~32g protein)", lunch: "Korola bhaji first \u2192 2 pieces chicken kosha \u2192 50/50 phulkopi + lal chal (~32g protein)", snack: "Tok doi + cucumber slices", dinner: "Begun bhaja + tomato salad first \u2192 2 pieces beef or duck bhuna \u2192 2 almond flour + isabgol rotis (~35g protein \u00b7 ~8g carbs)" },
+    3: { breakfast: "3 eggs + 2 egg whites + 1 besan roti (~31g protein)", lunch: "Begun bhaji first \u2192 1 large fish piece + 2 eggs \u2192 1 besan-atta roti (~32g protein)", snack: "1 boiled egg + cucumber slices", dinner: "Dherosh bhaji first \u2192 2 pieces chicken kosha (no aloo) + masoor dal \u2192 1.5 besan-atta rotis (~34g protein \u00b7 ~25g carbs)" },
+    4: { breakfast: "Tok doi + 2 boiled eggs + cucumber slices", lunch: "Dherosh bhaji first \u2192 2 pieces chicken kosha \u2192 50/50 phulkopi + lal chal (~32g protein)", snack: "Tok doi + cucumber slices", dinner: "Korola bhaji + cucumber first \u2192 rui in jhol + boiled egg \u2192 50/50 phulkopi + lal chal (~33g protein \u00b7 ~22g carbs)" },
+    5: { breakfast: "1 large fish piece + 2 boiled eggs (~32g protein)", lunch: "Korola bhaji first \u2192 1 large fish piece + 1/2 cup thick masoor dal \u2192 50/50 phulkopi + lal chal (~30g protein)", snack: "1 boiled egg + cucumber slices", dinner: "Begun bhaja + tomato salad first \u2192 2 pieces beef or duck bhuna \u2192 2 almond flour + isabgol rotis (~35g protein \u00b7 ~8g carbs)" },
+    6: { breakfast: "1 besan roti + 2-egg dim bhuna", lunch: "Begun bhaji first \u2192 2 pieces duck or beef bhuna \u2192 2 almond flour + isabgol rotis (~32g protein)", snack: "Tok doi + cucumber slices", dinner: "Dherosh bhaji first \u2192 2 pieces chicken kosha (no aloo) + masoor dal \u2192 1.5 besan-atta rotis (~34g protein \u00b7 ~25g carbs)" }
   };
   var MEALS = ["breakfast", "lunch", "snack", "dinner"];
   var DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
