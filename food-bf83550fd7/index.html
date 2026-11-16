@@ -46,6 +46,17 @@
   .guide th { color:var(--txt); }
   .guide a { color:var(--acc); }
   .tips { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-top:10px; font-size:13px; color:var(--dim); line-height:1.6; }
+  .photos { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:8px; }
+  .photos figure { margin:0; border-radius:12px; overflow:hidden; border:1px solid var(--line); background:#0f172a; }
+  .photos img { width:100%; height:110px; object-fit:cover; display:block; }
+  .photos figcaption { padding:8px 10px; font-size:12px; line-height:1.45; }
+  .photos figcaption b { display:block; color:var(--txt); font-size:13px; margin-bottom:2px; }
+  .matrix { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:8px; }
+  .matrix div { border:1px solid var(--line); border-radius:10px; padding:10px; }
+  .matrix h4 { margin:0 0 6px; font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+  .matrix ul { margin:0; padding-left:16px; }
+  .matrix li { margin-bottom:5px; }
+  @media (max-width:640px) { .photos { grid-template-columns:1fr; } .matrix { grid-template-columns:1fr; } }
   .tips b { color:var(--txt); }
   footer { margin-top:16px; font-size:12px; color:var(--dim); line-height:1.6; }
   .clear { margin-top:12px; width:100%; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--dim); font-size:13px; cursor:pointer; }
@@ -80,6 +91,7 @@
       <li><b>Smart carb last (&le;30g at dinner)</b> &mdash; 50/50 cauli&ndash;lal chal rice, besan / almond roti, or konjac rice soaked in your remaining jhol.</li>
     </ol>
     <p style="margin:8px 0 0">The habit shift: instead of mashing rice, bhaji and jhol together from bite #1, eat half your bhaji and one piece of fish or meat plain first &mdash; then mix the rest.</p>
+    <p style="margin:8px 0 0">Same curry, different order: eating fiber &rarr; protein &rarr; smart carb can mean up to a 70% smaller blood-sugar spike than starting with a white-rice mound.</p>
   </div>
 
   <div class="guide">
@@ -98,6 +110,15 @@
   </div>
 
   <div class="guide">
+    <h3>Keep the curry &mdash; just change the base</h3>
+    <div class="photos">
+      <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Pabda_macher_jhol.jpg?width=640" alt="Maacher jhol"><figcaption><b>Maacher Jhol: Keep the Curry!</b>Pair light jhol with 50/50 cauli + lal chal.</figcaption></figure>
+      <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Korola.jpg?width=640" alt="Korola and dherosh"><figcaption><b>Korola &amp; Dherosh: Fiber Stars</b>Eat bhaji (no potato) first to blunt glucose.</figcaption></figure>
+      <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bengali_chicken_curry_2.jpg?width=640" alt="Chicken curry"><figcaption><b>Murgi, Haash &amp; Beef Bhuna</b>Rich gravies shine with besan or almond roti.</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="guide">
     <h3>Hit ~30g protein per meal</h3>
     <ul>
       <li>2 generous curry pieces of chicken, beef or duck (~4.5 oz cooked) &mdash; ~32g</li>
@@ -105,12 +126,49 @@
       <li>1 large fish piece + 1/2 cup thick masoor dal &mdash; ~30g</li>
       <li>3 whole eggs + 2 egg whites + 1 besan roti &mdash; ~31g</li>
     </ul>
-    <h3 style="margin-top:12px">Keep in mind</h3>
+    <h3 style="margin-top:12px">Ingredient matrix: load up, enjoy, tweak</h3>
+    <div class="matrix">
+      <div>
+        <h4 style="color:var(--good)">Load up freely &mdash; fiber heroes</h4>
+        <ul>
+          <li><b>Korola:</b> bitter melon, cook without potato.</li>
+          <li><b>Dherosh:</b> okra &mdash; soluble fiber slows sugar absorption.</li>
+          <li><b>Begun, phulkopi &amp; sim:</b> roast or make vorta with mustard oil, onion &amp; chili.</li>
+          <li><b>Lau, palong &amp; kacha shosha:</b> bottle gourd, leafy shaak, raw cucumber before every meal.</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:var(--acc)">Enjoy generously &mdash; proteins</h4>
+        <ul>
+          <li><b>All Deshi maach:</b> rui, katla, pabda, ilish, chingri, tilapia.</li>
+          <li><b>Murgi &amp; dim:</b> skinless chicken kosha, boiled / poached / curried eggs.</li>
+          <li><b>Haash &amp; lean beef:</b> zero-carb protein &mdash; skim excess oil off bhuna gravies.</li>
+          <li><b>Tofu / paneer / tok doi:</b> unsweetened yogurt or tok doi as a high-protein side.</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:#f87171">Smart tweaks &mdash; watch carbs</h4>
+        <ul>
+          <li><b>Skip aloo inside curries:</b> potato spikes glucose just like white rice.</li>
+          <li><b>Misti kumra &amp; sweet corn:</b> keep minimal; swap pepe or mula into curries.</li>
+          <li><b>Dal counts toward both:</b> 1 cup thick dal adds ~20&ndash;25g carbs.</li>
+          <li><b>Measure cooking oil:</b> 1&ndash;2 tbsp mustard, avocado or olive oil instead of heavy oil or ghee.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="guide">
+    <h3>3 roti secrets (so low-carb rotis never crack or turn stiff)</h3>
+    <ol>
+      <li><b>Isabgol magic:</b> 1 tbsp psyllium husk + hot water mimics gluten elasticity.</li>
+      <li><b>Parchment roll:</b> roll almond or lentil dough between 2 sheets of parchment so it doesn't stick.</li>
+      <li><b>Damp cloth:</b> move cooked rotis into a towel-lined casserole right off the tawa so steam keeps them pillowy soft.</li>
+    </ol>
+    <h3 style="margin-top:12px">Too busy to roll dough tonight?</h3>
     <ul>
-      <li>Skip aloo (potato) inside curries &mdash; it spikes glucose just like white rice.</li>
-      <li>Dal counts toward carbs too: 1 cup thick dal adds ~20&ndash;25g carbs.</li>
-      <li>Measure cooking oil: 1&ndash;2 tbsp mustard, avocado or olive oil instead of heavy cooking oil or ghee.</li>
-      <li>Keep misti kumra (sweet pumpkin) and sweet corn minimal; swap pepe (green papaya) or mula (radish) into curries.</li>
+      <li><b>Flame-puffed tortilla:</b> toss a store-bought high-fiber tortilla (4&ndash;5g net carbs) straight onto the gas burner for 4 seconds per side with tongs &mdash; it chars and puffs like a homemade chapati.</li>
+      <li><b>Easy 50/50 atta + besan mix:</b> half regular whole-wheat atta, half besan, 1 tsp isabgol. Rolls effortlessly while cutting the glucose spike.</li>
     </ul>
   </div>
 
